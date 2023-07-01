@@ -1,47 +1,53 @@
-import * as THREE from "https://cdn.skypack.dev/three@0.133.1/build/three.module";
-import {OrbitControls} from "https://cdn.skypack.dev/three@0.133.1/examples/jsm/controls/OrbitControls";
+// Create a scene
+var scene = new THREE.Scene();
 
-let scene, camera, renderer, orbit;
+// Create a camera
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
 
-init();
-render();
+// Create a renderer
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-function init() {
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xF5F5F5);
+// Create an array of image URLs
+var imageUrls = [
+  "url1.jpg",
+  "url2.jpg",
+  // ... add more URLs here
+];
 
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 60);
-    camera.position.set(0, 4, 10);
-    scene.add(camera);
+// Calculate the number of cubes based on the number of images
+var numCubes = imageUrls.length;
+var numCubesPerRow = Math.ceil(Math.sqrt(numCubes));
 
-    const geometry = new THREE.TorusKnotGeometry(1, .4, 200, 50, 2, 1);
-    geometry.rotateX(.5 * Math.PI);
-    const material = new THREE.MeshNormalMaterial({});
-    const mesh = new THREE.Mesh(geometry, material);
+// Calculate the size of each cube based on the number of cubes per row
+var cubeSize = 2 / numCubesPerRow;
 
-    scene.add(mesh);
+// Create cubes with dynamically loaded textures
+for (var i = 0; i < numCubes; i++) {
+  var cubeGeometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
 
-    renderer = new THREE.WebGLRenderer({
-        canvas: document.querySelector("canvas"),
-        antialias: true
-    });
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(window.innerWidth, window.innerHeight);
+  // Load image texture dynamically from URL
+  var loader = new THREE.TextureLoader();
+  loader.load(imageUrls[i], function(texture) {
+    var cubeMaterial = new THREE.MeshBasicMaterial({ map: texture });
+    var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-    orbit = new OrbitControls(camera, renderer.domElement);
-    orbit.autoRotate = true;
-    orbit.autoRotateSpeed = 50;
-    window.addEventListener('resize', onWindowResize);
+    // Calculate the position of each cube based on its index
+    var row = Math.floor(i / numCubesPerRow);
+    var col = i % numCubesPerRow;
+    var xPos = (col - numCubesPerRow / 2) * cubeSize;
+    var yPos = (row - numCubesPerRow / 2) * cubeSize;
+
+    cube.position.set(xPos, yPos, 0);
+    scene.add(cube);
+  });
 }
 
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
+// Render the scene
+function animate() {
+  requestAnimationFrame(animate);
+  renderer.render(scene, camera);
 }
-
-function render() {
-    orbit.update();
-    renderer.render(scene, camera);
-    requestAnimationFrame(render);
-}
+animate();
