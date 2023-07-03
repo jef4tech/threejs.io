@@ -15,12 +15,12 @@ camera.position.z = 10;
 
 // Define the sample images for each side of the cube (base64-encoded)
 var imageUrls = [
-  'https://i0.wp.com/www.socialnews.xyz/wp-content/uploads/2022/04/22/Actress-Moksha-Glam-Stills-from-Lucky-Lakshman-Movie-Opening-.jpg?w=799&quality=80&zoom=1&ssl=1',
-  'https://i0.wp.com/www.socialnews.xyz/wp-content/uploads/2022/04/22/Actress-Moksha-Glam-Stills-from-Lucky-Lakshman-Movie-Opening-.jpg?w=799&quality=80&zoom=1&ssl=1',
-  'https://i0.wp.com/www.socialnews.xyz/wp-content/uploads/2022/04/22/Actress-Moksha-Glam-Stills-from-Lucky-Lakshman-Movie-Opening-.jpg?w=799&quality=80&zoom=1&ssl=1',
-  'https://i0.wp.com/www.socialnews.xyz/wp-content/uploads/2022/04/22/Actress-Moksha-Glam-Stills-from-Lucky-Lakshman-Movie-Opening-.jpg?w=799&quality=80&zoom=1&ssl=1',
-  'https://i0.wp.com/www.socialnews.xyz/wp-content/uploads/2022/04/22/Actress-Moksha-Glam-Stills-from-Lucky-Lakshman-Movie-Opening-.jpg?w=799&quality=80&zoom=1&ssl=1',
-  'https://i0.wp.com/www.socialnews.xyz/wp-content/uploads/2022/04/22/Actress-Moksha-Glam-Stills-from-Lucky-Lakshman-Movie-Opening-.jpg?w=799&quality=80&zoom=1&ssl=1'
+  'https://cdn.icon-icons.com/icons2/2235/PNG/512/android_os_logo_icon_134673.png',
+  'https://cdn.icon-icons.com/icons2/2235/PNG/512/android_os_logo_icon_134673.png',
+  'https://cdn.icon-icons.com/icons2/2235/PNG/512/android_os_logo_icon_134673.png',
+  'https://cdn.icon-icons.com/icons2/2235/PNG/512/android_os_logo_icon_134673.png',
+  'https://cdn.icon-icons.com/icons2/2235/PNG/512/android_os_logo_icon_134673.png',
+  'https://cdn.icon-icons.com/icons2/2235/PNG/512/android_os_logo_icon_134673.png'
 ];
 
 // Create a texture loader
@@ -35,6 +35,7 @@ var materials = [];
 imageUrls.forEach(function(url) {
   var texture = textureLoader.load(url);
   var material = new THREE.MeshBasicMaterial({ map: texture });
+  
   materials.push(material);
 });
 
@@ -64,7 +65,7 @@ function createCube() {
 var cubes = [];
 
 // Generate multiple cubes
-for (var i = 0; i < 100; i++) {
+for (var i = 0; i < 10; i++) {
   var cube = createCube();
   cubes.push(cube);
 }
